@@ -1,0 +1,42 @@
+---
+host_task:
+  env:
+    FREEBSD_VERSION: 13.2-RELEASE
+    NO_LIB32: yes
+    PWD: $CIRRUS_WORKING_DIR
+
+  freebsd_instance:
+    image_family: freebsd-15-0-snap
+
+  build_host_script: sh ./compose/build_host.sh
+
+  host_artifacts:
+    path: artifacts/**
+
+build_jail_task:
+  env:
+    FREEBSD_VERSION: 13.2-RELEASE
+    NO_LIB32: yes
+    PWD: $CIRRUS_WORKING_DIR
+
+  freebsd_instance:
+    image_family: freebsd-15-0-snap
+
+  matrix:
+    - name: traefik
+      env:
+        JAIL_NAME: traefik
+    - name: postgresql
+      env:
+        JAIL_NAME: postgresql
+    - name: app
+      env:
+        JAIL_NAME: app
+
+  build_jail_script: sh ./compose/build_jail.sh
+
+# upload_to_github_script:
+#   - sh .cirrus/upload_to_github.sh
+
+  jail_artifacts:
+    path: artifacts/**

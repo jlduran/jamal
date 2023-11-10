@@ -1,0 +1,5 @@
+devel/git@tiny
+editors/vim
+security/sudo
+sysutils/monit
+sysutils/tmux
